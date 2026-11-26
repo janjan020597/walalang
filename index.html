@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Group Sticky Notes — User & Admin Portal</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <div class="header-top">
+      <div>
+        <h1 id="appTitle">📌 Interactive Group Sticky Notes</h1>
+        <p id="headerSubtitle">Please log in to view and post on the board</p>
+      </div>
+      <button type="button" id="openSettingsBtn" class="settings-trigger">⚙️ <span id="settingsBtnLabel">Settings</span></button>
+    </div>
+  </header>
+
+  <!-- SETTINGS MODAL (Available on Front Page & Inside App) -->
+  <div id="settingsModal" class="modal-backdrop hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 id="settingsHeading">⚙️ System Settings</h2>
+        <button type="button" id="closeSettingsBtn" class="close-btn">✕</button>
+      </div>
+
+      <!-- Avatar Picker (User & Admin) -->
+      <div class="setting-group">
+        <label id="labelAvatar">Profile Avatar</label>
+        <div class="avatar-picker-row" id="avatarPicker">
+          <button type="button" class="avatar-btn active" data-avatar="😎">😎</button>
+          <button type="button" class="avatar-btn" data-avatar="🦊">🦊</button>
+          <button type="button" class="avatar-btn" data-avatar="🐱">🐱</button>
+          <button type="button" class="avatar-btn" data-avatar="🤖">🤖</button>
+          <button type="button" class="avatar-btn" data-avatar="🌟">🌟</button>
+          <button type="button" class="avatar-btn" data-avatar="🎨">🎨</button>
+          <button type="button" class="avatar-btn" data-avatar="🛡️">🛡️</button>
+          <button type="button" class="avatar-btn" data-avatar="🚀">🚀</button>
+        </div>
+      </div>
+
+      <!-- Change Personal Password (When Signed In with Email/Password) -->
+      <div class="setting-group password-box hidden" id="passwordChangeSection">
+        <label id="labelChangePassword">Change Personal Password</label>
+        <p id="passwordHint" class="setting-hint">
+          Enter your current password and a new password (min. 6 characters).
+        </p>
+        <div class="password-fields">
+          <input type="password" id="currentPasswordInput" placeholder="Current password" />
+          <input type="password" id="newPasswordInput" placeholder="New password (min. 6 chars)" minlength="6" />
+          <button type="button" id="updatePasswordBtn" class="secondary-btn">Update Password</button>
+        </div>
+        <p id="passwordStatusMsg" class="setting-status"></p>
+      </div>
+
+      <div class="setting-group">
+        <label for="themeModeSelect" id="labelThemeMode">Appearance Mode</label>
+        <select id="themeModeSelect">
+          <option value="light">Light Mode</option>
+          <option value="dark">Dark Mode</option>
+        </select>
+      </div>
+
+      <div class="setting-group">
+        <label id="labelAccentColor">Accent &amp; Interface Theme</label>
+        <div class="color-swatch-row" id="accentSwatches">
+          <button type="button" class="swatch-btn active" data-accent="blue" title="Ocean Blue">Blue</button>
+          <button type="button" class="swatch-btn" data-accent="green" title="Neon Mint">Green</button>
+          <button type="button" class="swatch-btn" data-accent="pink" title="Rose Pink">Pink</button>
+          <button type="button" class="swatch-btn" data-accent="amber" title="Warm Gold">Gold</button>
+        </div>
+      </div>
+
+      <div class="setting-group">
+        <label for="languageSelect" id="labelLanguage">Language</label>
+        <select id="languageSelect">
+          <option value="en">English</option>
+          <option value="tl">Tagalog</option>
+          <option value="hil">Hiligaynon</option>
+          <option value="ceb">Bisaya</option>
+        </select>
+      </div>
+
+      <div class="setting-group">
+        <label for="gridSizeSelect" id="labelGridSize">Board Card Size</label>
+        <select id="gridSizeSelect">
+          <option value="normal">Normal Cards</option>
+          <option value="compact">Compact Cards</option>
+          <option value="large">Large Cards</option>
+        </select>
+      </div>
+
+      <div class="setting-group checkbox-row">
+        <input type="checkbox" id="stickerAnimToggle" checked />
+        <label for="stickerAnimToggle" id="labelStickerAnim">Enable interactive sticker bounce on hover</label>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" id="resetSettingsBtn" class="secondary-btn">Reset Defaults</button>
+        <button type="button" id="saveSettingsBtn">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <main class="container">
+    <!-- AUTHENTICATION PANEL (Only visible when logged out; board stays hidden) -->
+    <section id="authSection" class="auth-card">
+      <!-- Role Toggle on Login -->
+      <div class="role-selector" id="roleSelector">
+        <button type="button" id="userRoleBtn" class="role-btn active">👤 User Login</button>
+        <button type="button" id="adminRoleBtn" class="role-btn">🛡️ Admin Login</button>
+      </div>
+
+      <!-- Login / Create User Account Tabs -->
+      <div class="auth-tabs" id="authTabs">
+        <button type="button" id="showLoginTab" class="tab-btn active">Log In</button>
+        <button type="button" id="showSignupTab" class="tab-btn">Create User Account</button>
+      </div>
+
+      <p id="adminNotice" class="admin-notice hidden">
+        Admin accounts cannot be created here. Sign in with your Admin email and password after your role is set to "admin" in Firestore.
+      </p>
+
+      <!-- Email / Username / Password Form -->
+      <form id="authForm">
+        <input type="text" id="nameInput" placeholder="Full Name (New User Only)" class="hidden" />
+        <input
+          type="text"
+          id="signupUsernameInput"
+          placeholder="Username (letters, numbers, _ , 3-20 chars)"
+          pattern="^[a-zA-Z0-9_]{3,20}$"
+          class="hidden"
+        />
+
+        <input type="text" id="loginIdentifierInput" placeholder="Email or Username" required />
+        <input type="email" id="signupEmailInput" placeholder="Email address (e.g., name@gmail.com)" class="hidden" />
+        <input type="password" id="passwordInput" placeholder="Password (min. 6 chars)" minlength="6" required />
+
+        <div class="form-helper-row" id="forgotPasswordRow">
+          <button type="button" id="forgotPasswordBtn" class="link-btn">Forgot password?</button>
+        </div>
+
+        <button type="submit" id="authSubmitBtn">Log In as User</button>
+      </form>
+
+      <!-- Forgot Password Reset Box -->
+      <div id="resetPasswordBox" class="reset-box hidden">
+        <h3 id="resetHeading">Reset Password via Gmail / Email</h3>
+        <p id="resetDesc">Enter your Gmail/email address (or username) and we will send a password reset link.</p>
+        <div class="reset-inline">
+          <input type="text" id="resetEmailInput" placeholder="Enter Gmail, email, or username" />
+          <button type="button" id="sendResetBtn">Send Link</button>
+        </div>
+        <button type="button" id="cancelResetBtn" class="link-btn">Back to Login</button>
+      </div>
+
+      <!-- Gmail / Google Login (Only shown for Normal Users) -->
+      <div id="socialAuthBlock">
+        <div class="divider"><span id="orContinueLabel">or continue as User with</span></div>
+        <div class="provider-buttons">
+          <button type="button" id="googleBtn" class="provider-btn google">Gmail (Google)</button>
+        </div>
+      </div>
+
+      <p id="authMessage" class="auth-message"></p>
+    </section>
+
+    <!-- MAIN APPLICATION (Only shown AFTER successful login) -->
+    <section id="appSection" class="hidden">
+      <div class="user-bar">
+        <div class="user-details">
+          <span id="userAvatarBadge" class="user-avatar-badge">😎</span>
+          <span id="roleBadge" class="badge badge-user">USER</span>
+          <span>
+            <span id="signedInAsLabel">Signed in as</span> <strong id="userDisplayName"></strong>
+            <span id="userHandleWrap">(@<span id="userHandle"></span>)</span>
+            — <span id="userEmail"></span>
+          </span>
+        </div>
+        <button type="button" id="logoutBtn" class="logout-btn">Log Out</button>
+      </div>
+
+      <!-- Interactive Sticky Note & Sticker Creator -->
+      <section class="note-creator">
+        <h2 id="creatorHeading">Create Interactive Sticky Note</h2>
+        <form id="noteForm">
+          <textarea id="contentInput" rows="3" placeholder="Type your message here..." required></textarea>
+
+          <div class="sticker-picker-group">
+            <label id="chooseStickerLabel">Choose a Sticker:</label>
+            <div class="sticker-options" id="stickerOptions">
+              <button type="button" class="sticker-choice selected" data-sticker="📌">📌</button>
+              <button type="button" class="sticker-choice" data-sticker="🔥">🔥</button>
+              <button type="button" class="sticker-choice" data-sticker="💡">💡</button>
+              <button type="button" class="sticker-choice" data-sticker="✅">✅</button>
+              <button type="button" class="sticker-choice" data-sticker="❤️">❤️</button>
+              <button type="button" class="sticker-choice" data-sticker="⭐">⭐</button>
+              <button type="button" class="sticker-choice" data-sticker="🎉">🎉</button>
+            </div>
+          </div>
+
+          <div class="controls">
+            <div class="control-item">
+              <label for="colorSelect" id="colorLabel">Color:</label>
+              <select id="colorSelect">
+                <option value="#fff740">Classic Yellow</option>
+                <option value="#ff7eb9">Neon Pink</option>
+                <option value="#7afcff">Sky Blue</option>
+                <option value="#98ff98">Mint Green</option>
+                <option value="#ffd166">Warm Amber</option>
+              </select>
+            </div>
+
+            <div class="control-item">
+              <label for="tiltSelect" id="tiltLabel">Tilt:</label>
+              <select id="tiltSelect">
+                <option value="0deg">Straight (0°)</option>
+                <option value="-2deg">Left (-2°)</option>
+                <option value="2deg">Right (+2°)</option>
+              </select>
+            </div>
+
+            <button type="submit" id="submitBtn">Stick to Board</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Interactive Filter Bar -->
+      <div class="board-toolbar">
+        <input type="text" id="searchInput" placeholder="Search sticky notes or authors..." />
+        <select id="filterOwnership">
+          <option value="all">All Sticky Notes</option>
+          <option value="mine">My Sticky Notes Only</option>
+        </select>
+      </div>
+
+      <!-- Sticky Notes Board -->
+      <section id="notesBoard" class="notes-grid"></section>
+    </section>
+  </main>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

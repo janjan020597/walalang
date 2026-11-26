@@ -1,0 +1,669 @@
+:root {
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
+  --bg-page: #f3f4f6;
+  --dot-color: #d1d5db;
+  --surface: #ffffff;
+  --surface-subtle: #f3f4f6;
+  --text-main: #1f2937;
+  --text-heading: #111827;
+  --text-muted: #4b5563;
+  --border-color: #d1d5db;
+}
+
+body.theme-dark {
+  --bg-page: #0f172a;
+  --dot-color: #1e293b;
+  --surface: #1e293b;
+  --surface-subtle: #334155;
+  --text-main: #e2e8f0;
+  --text-heading: #f8fafc;
+  --text-muted: #94a3b8;
+  --border-color: #475569;
+}
+
+body.accent-blue {
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
+}
+
+body.accent-green {
+  --accent: #16a34a;
+  --accent-hover: #15803d;
+}
+
+body.accent-pink {
+  --accent: #db2777;
+  --accent-hover: #be185d;
+}
+
+body.accent-amber {
+  --accent: #d97706;
+  --accent-hover: #b45309;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background: radial-gradient(var(--dot-color) 1px, var(--bg-page) 1px);
+  background-size: 20px 20px;
+  color: var(--text-main);
+  padding: 20px;
+  min-height: 100vh;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+header {
+  max-width: 1150px;
+  margin: 0 auto 24px auto;
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+header h1 {
+  font-size: 2rem;
+  color: var(--text-heading);
+}
+
+header p {
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.settings-trigger {
+  background: var(--surface);
+  color: var(--text-heading);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.hidden {
+  display: none !important;
+}
+
+.container {
+  max-width: 1150px;
+  margin: 0 auto;
+}
+
+/* Settings Modal */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  z-index: 100;
+}
+
+.modal-card {
+  background: var(--surface);
+  color: var(--text-main);
+  width: 100%;
+  max-width: 440px;
+  padding: 24px;
+  border-radius: 14px;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.28);
+  border: 1px solid var(--border-color);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.modal-header h2 {
+  font-size: 1.25rem;
+  color: var(--text-heading);
+}
+
+.close-btn {
+  background: var(--surface-subtle);
+  color: var(--text-heading);
+  padding: 6px 10px;
+}
+
+.setting-group {
+  margin-bottom: 16px;
+}
+
+.setting-group > label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--text-heading);
+}
+
+.color-swatch-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.swatch-btn {
+  padding: 8px;
+  font-size: 0.85rem;
+  opacity: 0.75;
+  border: 2px solid transparent;
+}
+
+.swatch-btn[data-accent="blue"] { background: #2563eb; }
+.swatch-btn[data-accent="green"] { background: #16a34a; }
+.swatch-btn[data-accent="pink"] { background: #db2777; }
+.swatch-btn[data-accent="amber"] { background: #d97706; }
+
+.swatch-btn.active {
+  opacity: 1;
+  border-color: var(--text-heading);
+  transform: scale(1.03);
+}
+
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.checkbox-row input[type="checkbox"] {
+  width: auto;
+}
+
+.checkbox-row label {
+  margin-bottom: 0;
+  font-weight: 500;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.secondary-btn {
+  background: var(--surface-subtle);
+  color: var(--text-heading);
+}
+
+/* Auth Card */
+.auth-card {
+  background: var(--surface);
+  padding: 26px;
+  border-radius: 14px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+  border: 1px solid var(--border-color);
+  max-width: 440px;
+  margin: 20px auto;
+}
+
+.role-selector {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+  background: var(--surface-subtle);
+  padding: 5px;
+  border-radius: 8px;
+}
+
+.role-btn {
+  flex: 1;
+  background: transparent;
+  color: var(--text-muted);
+  padding: 8px;
+  font-size: 0.92rem;
+}
+
+.role-btn.active {
+  background: var(--text-heading);
+  color: var(--surface);
+}
+
+.auth-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.tab-btn {
+  flex: 1;
+  background: var(--surface-subtle);
+  color: var(--text-main);
+}
+
+.tab-btn.active {
+  background: var(--accent);
+  color: #ffffff;
+}
+
+.admin-notice {
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #f59e0b;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  margin-bottom: 14px;
+  text-align: center;
+}
+
+#authForm,
+#noteForm {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+input,
+textarea,
+select {
+  padding: 10px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-size: 0.98rem;
+  width: 100%;
+  background: var(--surface);
+  color: var(--text-main);
+}
+
+.form-helper-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -4px;
+}
+
+.link-btn {
+  background: transparent;
+  color: var(--accent);
+  padding: 2px 4px;
+  font-size: 0.86rem;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.reset-box {
+  background: var(--surface-subtle);
+  padding: 16px;
+  border-radius: 10px;
+  margin-top: 12px;
+  border: 1px solid var(--border-color);
+}
+
+.reset-box h3 {
+  font-size: 1rem;
+  color: var(--text-heading);
+  margin-bottom: 6px;
+}
+
+.reset-box p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+}
+
+.reset-inline {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.reset-inline button {
+  white-space: nowrap;
+}
+
+.divider {
+  text-align: center;
+  margin: 16px 0;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border-color);
+  line-height: 0.1em;
+}
+
+.divider span {
+  background: var(--surface);
+  padding: 0 10px;
+}
+
+.provider-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.provider-btn.google {
+  background-color: #db4437;
+}
+
+.auth-message {
+  margin-top: 12px;
+  font-size: 0.9rem;
+  color: #ef4444;
+  min-height: 1.2em;
+  text-align: center;
+}
+
+/* User / Admin Status Bar */
+.user-bar {
+  background: var(--surface);
+  padding: 14px 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.user-details {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.badge {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.badge-user {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.badge-admin {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.logout-btn {
+  background-color: #4b5563;
+}
+
+/* Note Creator & Sticker Picker */
+.note-creator {
+  background: var(--surface);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--border-color);
+  max-width: 600px;
+  margin: 0 auto 24px auto;
+}
+
+.note-creator h2 {
+  font-size: 1.15rem;
+  color: var(--text-heading);
+  margin-bottom: 12px;
+}
+
+.sticker-picker-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.sticker-options {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.sticker-choice {
+  background: var(--surface-subtle);
+  color: var(--text-heading);
+  font-size: 1.25rem;
+  padding: 6px 10px;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  transition: transform 0.15s, border-color 0.15s;
+}
+
+.sticker-choice:hover {
+  transform: scale(1.15);
+}
+
+.sticker-choice.selected {
+  border-color: var(--accent);
+  background: var(--surface-subtle);
+  transform: scale(1.1);
+}
+
+.controls {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.control-item {
+  flex: 1;
+  min-width: 130px;
+}
+
+.control-item label {
+  display: block;
+  font-size: 0.8rem;
+  margin-bottom: 4px;
+  color: var(--text-muted);
+}
+
+button {
+  background-color: var(--accent);
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: transform 0.15s, opacity 0.2s, background-color 0.2s;
+}
+
+button:hover {
+  background-color: var(--accent-hover);
+  opacity: 0.95;
+}
+
+/* Board Toolbar */
+.board-toolbar {
+  display: flex;
+  gap: 12px;
+  max-width: 720px;
+  margin: 0 auto 28px auto;
+  flex-wrap: wrap;
+}
+
+.board-toolbar input {
+  flex: 2;
+  min-width: 200px;
+}
+
+.board-toolbar select {
+  flex: 1;
+  min-width: 160px;
+}
+
+/* Interactive Sticky Notes Grid & Freeform Canvas */
+.notes-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 24px;
+  padding: 16px;
+  min-height: 520px;
+  border-radius: 14px;
+  border: 2px dashed transparent;
+}
+
+.notes-grid.freeform-active {
+  display: block;
+  border-color: var(--border-color);
+  background: rgba(255, 255, 255, 0.25);
+  overflow: auto;
+}
+
+body.grid-compact .notes-grid:not(.freeform-active) {
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+body.grid-large .notes-grid:not(.freeform-active) {
+  grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+  gap: 28px;
+}
+
+.sticky-note {
+  position: relative;
+  width: 250px;
+  padding: 22px 18px 16px 18px;
+  border-radius: 4px 4px 18px 4px;
+  box-shadow: 4px 8px 16px rgba(0, 0, 0, 0.16);
+  color: #1f2937;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 220px;
+  cursor: default;
+  user-select: none;
+  transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.2s ease;
+}
+
+.notes-grid:not(.freeform-active) .sticky-note {
+  width: auto;
+}
+
+.notes-grid.freeform-active .sticky-note {
+  position: absolute;
+}
+
+.sticky-note.admin-draggable {
+  cursor: grab;
+}
+
+.sticky-note.admin-draggable:active,
+.sticky-note.dragging {
+  cursor: grabbing;
+  box-shadow: 0 18px 32px rgba(0, 0, 0, 0.28);
+  z-index: 30;
+  transition: none;
+}
+
+body.grid-compact .sticky-note {
+  min-height: 170px;
+  padding: 16px 14px 12px 14px;
+}
+
+body.grid-large .sticky-note {
+  min-height: 270px;
+  padding: 26px 22px 20px 22px;
+}
+
+.sticky-note:not(.dragging):hover {
+  transform: scale(1.04) rotate(0deg) !important;
+  box-shadow: 8px 14px 24px rgba(0, 0, 0, 0.22);
+  z-index: 5;
+}
+
+.note-sticker {
+  position: absolute;
+  top: -14px;
+  right: 14px;
+  font-size: 1.9rem;
+  filter: drop-shadow(0 3px 4px rgba(0, 0, 0, 0.25));
+  user-select: none;
+  transition: transform 0.2s ease;
+}
+
+body.sticker-anim .sticky-note:hover .note-sticker {
+  transform: scale(1.25) rotate(12deg);
+}
+
+.note-content {
+  font-size: 1.05rem;
+  line-height: 1.45;
+  margin-top: 6px;
+  margin-bottom: 16px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.note-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.drag-hint {
+  font-size: 0.72rem;
+  font-weight: 600;
+  opacity: 0.75;
+}
+
+.like-btn {
+  background: rgba(255, 255, 255, 0.72);
+  color: #111827;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.like-btn.liked {
+  background: #fee2e2;
+  border-color: #ef4444;
+  color: #b91c1c;
+}
+
+.note-footer {
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+  padding-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.82rem;
+  gap: 8px;
+}
+
+.note-actions {
+  display: flex;
+  gap: 5px;
+}
+
+.note-actions button {
+  padding: 5px 9px;
+  font-size: 0.78rem;
+}
+
+.edit-btn {
+  background-color: #d97706;
+}
+
+.delete-btn {
+  background-color: #dc2626;
+}
